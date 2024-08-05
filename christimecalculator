@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Difference Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="time"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Time Difference Calculator</h1>
+        <label for="start-time">Start Time:</label>
+        <input type="time" id="start-time" required>
+        <label for="end-time">End Time:</label>
+        <input type="time" id="end-time" required>
+        <button onclick="calculateTimeDifference()">Calculate Difference</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function timeDifferenceInTimeFormat(startTime, endTime) {
+            const start = new Date(`1970-01-01T${startTime}Z`);
+            let end = new Date(`1970-01-01T${endTime}Z`);
+
+            if (end < start) {
+                end.setDate(end.getDate() + 1);
+            }
+
+            const differenceInMillis = end - start;
+            const differenceInMinutes = Math.floor(differenceInMillis / (1000 * 60));
+            
+            const hours = Math.floor(differenceInMinutes / 60);
+            const minutes = differenceInMinutes % 60;
+
+            return `${hours} hours and ${minutes} minutes`;
+        }
+
+        function calculateTimeDifference() {
+            const startTime = document.getElementById('start-time').value;
+            const endTime = document.getElementById('end-time').value;
+
+            if (startTime && endTime) {
+                const difference = timeDifferenceInTimeFormat(startTime, endTime);
+                document.getElementById('result').innerText = `The difference is ${difference}.`;
+            } else {
+                document.getElementById('result').innerText = 'Please enter both start and end times.';
+            }
+        }
+    </script>
+</body>
+</html>
